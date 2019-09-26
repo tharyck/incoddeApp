@@ -36,6 +36,7 @@ export default function Login ({navigation}) {
             style={styles.container}>
 
             <Text style={styles.textLogin}>Login</Text>
+                <Text style={styles.text}>Email:</Text>
                 <TextInput
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -44,6 +45,7 @@ export default function Login ({navigation}) {
                     value={email}
                     onChangeText={setEmail}
                     style={styles.input}/>
+                <Text style={styles.text}>Senha:</Text>
                 <TextInput
                     placeholder="Informe a Senha"
                     placeholderTextColor="#999"
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
 
     text: {
         fontWeight: 'bold',
-        fontSize: 30
+        alignSelf: 'flex-start'
     },
 
     textLogin: {
@@ -89,7 +91,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#DDD',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: 5,
+        marginBottom: 10,
         paddingHorizontal: 15,
     },
 

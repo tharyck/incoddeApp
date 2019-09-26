@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { KeyboardAvoidingView, Platform,StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { Button, Text } from 'native-base';
+import { KeyboardAvoidingView, Platform,StyleSheet, TextInput} from 'react-native';
+import { Button, Text, Form, Icon, Container, Header, Content, Picker} from 'native-base';
 import api from '../services/api';
 
 export default function RegisterActivity ({navigation}) {
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState('pendente');
 
     async function handleCancel() {
         navigation.navigate('Main');
@@ -17,6 +17,10 @@ export default function RegisterActivity ({navigation}) {
         navigation.navigate('Main');
     }
 
+    async function onValueChange(value: string) {
+        setStatus(value);
+    }
+
     return (
         <KeyboardAvoidingView
             behavior="padding"
@@ -24,7 +28,6 @@ export default function RegisterActivity ({navigation}) {
             style={styles.container}>
 
             <Text style={styles.textTitle}>Nova Atividade</Text>
-
             <Text style={styles.text}>Titulo:</Text>
             <TextInput
                 autoCapitalize="none"
@@ -44,14 +47,19 @@ export default function RegisterActivity ({navigation}) {
                 onChangeText={setDescription}
                 style={styles.input}/>
             <Text style={styles.text}>Status:</Text>
-            <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder="Selecione o status da atividade"
-                placeholderTextColor="#999"
-                value={status}
-                onChangeText={setStatus}
-                style={styles.input}/>
+            <Form>
+                <Picker
+                    note
+                    mode="dropdown"
+                    style={{ width: 120 }}
+                    selectedValue={status}
+                    onValueChange={onValueChange.bind(this)}
+                >
+                    <Picker.Item label="Pendente" value="pendente" />
+                    <Picker.Item label="Fazendo" value="fazendo" />
+                    <Picker.Item label="Concluido" value="concluido" />
+                </Picker>
+            </Form>
 
             <Button rounded success onPress={handleCreate} style={styles.button}>
                 <Text>Criar</Text>
@@ -60,7 +68,6 @@ export default function RegisterActivity ({navigation}) {
                 <Text>Cancelar</Text>
             </Button>
         </KeyboardAvoidingView>
-
     );
 }
 
@@ -74,14 +81,13 @@ const styles = StyleSheet.create({
 
     text: {
         fontWeight: 'bold',
-        marginTop: 10,
-
+        alignSelf: 'flex-start'
     },
 
     textTitle: {
         fontWeight: 'bold',
         fontSize: 30,
-        marginBottom: 10
+        marginBottom: 30
     },
 
     input: {
@@ -91,7 +97,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#DDD',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: 5,
+        marginBottom: 10,
         paddingHorizontal: 15,
     },
 

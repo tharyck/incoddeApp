@@ -65,7 +65,7 @@ export default function ViewActivity ({navigation}) {
         </KeyboardAvoidingView>
 
     );
-}
+});
 
 const styles = StyleSheet.create({
     container: {

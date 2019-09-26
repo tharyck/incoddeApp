@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'flex-start'
     },
 
     textTitle: {
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#DDD',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: 5,
+        marginBottom: 10,
         paddingHorizontal: 15,
     },
 
