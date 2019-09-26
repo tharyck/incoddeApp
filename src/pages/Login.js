@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { KeyboardAvoidingView, Text, Platform,StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, Platform,StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Button, Text } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 
@@ -7,13 +8,14 @@ export default function Login ({navigation}) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-    // useEffect(() => {
-    //     AsyncStorage.getItem('user').then(user => {
-    //         if(user){
-    //             navigation.navigate('Main', {user})
-    //         }
-    //     })
-    // }, []);
+    useEffect(() => {
+        AsyncStorage.getItem('user').then(user => {
+            if(user){
+                navigation.navigate('Main', {user})
+            }
+        })
+    }, []);
+
     async function handleRegisterUser() {
         navigation.navigate('RegisterUser');
 
@@ -33,7 +35,7 @@ export default function Login ({navigation}) {
             enabled={Platform.OS === 'ios' }
             style={styles.container}>
 
-            <Text style={styles.text}>Login</Text>
+            <Text style={styles.textLogin}>Login</Text>
                 <TextInput
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -48,12 +50,13 @@ export default function Login ({navigation}) {
                     value={password}
                     onChangeText={setPassword}
                     style={styles.input}/>
-                <TouchableOpacity onPress={handleLogin} style={styles.login}>
+
+                <Button rounded success style={styles.button} onPress={handleLogin}>
                     <Text>Entrar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleRegisterUser} style={styles.create}>
+                </Button>
+                <Button rounded info style={styles.button} onPress={handleRegisterUser}>
                     <Text>Cadastrar</Text>
-                </TouchableOpacity>
+                </Button>
 
         </KeyboardAvoidingView>
 
@@ -70,8 +73,13 @@ const styles = StyleSheet.create({
 
     text: {
         fontWeight: 'bold',
-        // color: '#000',
         fontSize: 30
+    },
+
+    textLogin: {
+        fontWeight: 'bold',
+        fontSize: 30,
+        marginBottom: 30
     },
 
     input: {
@@ -85,21 +93,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
 
-    login: {
+    button: {
         height: 46,
         alignSelf: 'stretch',
-        backgroundColor: '#228B22',
-        borderRadius: 4,
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    create: {
-        height: 46,
-        alignSelf: 'stretch',
-        backgroundColor: '#1874CD',
-        borderRadius: 4,
         marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',

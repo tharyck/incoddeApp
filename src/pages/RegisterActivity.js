@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { KeyboardAvoidingView, Text, Platform,StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { KeyboardAvoidingView, Platform,StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Button, Text } from 'native-base';
 import api from '../services/api';
 
 export default function RegisterActivity ({navigation}) {
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
     const [status, setStatus] = useState();
-    //TODO: Colocar id do usuario
-    const [user, setUser] = useState();
 
     async function handleCancel() {
         navigation.navigate('Main');
@@ -25,10 +23,12 @@ export default function RegisterActivity ({navigation}) {
             enabled={Platform.OS === 'ios' }
             style={styles.container}>
 
-            <Text style={styles.titleText}>Nova Atividade</Text>
+            <Text style={styles.textTitle}>Nova Atividade</Text>
 
             <Text style={styles.text}>Titulo:</Text>
             <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
                 placeholder="Informe o Titulo da Atividade"
                 placeholderTextColor="#999"
                 value={title}
@@ -36,6 +36,8 @@ export default function RegisterActivity ({navigation}) {
                 style={styles.input}/>
             <Text style={styles.text}>Descrição:</Text>
             <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
                 placeholder="Informe a Descrição da Atividade"
                 placeholderTextColor="#999"
                 value={description}
@@ -43,18 +45,20 @@ export default function RegisterActivity ({navigation}) {
                 style={styles.input}/>
             <Text style={styles.text}>Status:</Text>
             <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
                 placeholder="Selecione o status da atividade"
                 placeholderTextColor="#999"
                 value={status}
                 onChangeText={setStatus}
                 style={styles.input}/>
-            <TouchableOpacity onPress={handleCreate} style={styles.create}>
-                <Text>Entrar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleCancel} style={styles.cancel}>
-                <Text>Cancelar</Text>
-            </TouchableOpacity>
 
+            <Button rounded success onPress={handleCreate} style={styles.button}>
+                <Text>Criar</Text>
+            </Button>
+            <Button rounded danger onPress={handleCancel} style={styles.button}>
+                <Text>Cancelar</Text>
+            </Button>
         </KeyboardAvoidingView>
 
     );
@@ -68,17 +72,16 @@ const styles = StyleSheet.create({
         padding: 30,
     },
 
-    titleText: {
-        fontWeight: 'bold',
-        // color: '#000',
-        fontSize: 30,
-        marginBottom: 50,
-    },
-
     text: {
         fontWeight: 'bold',
-        fontSize: 15,
-    //    TODO: Alinhar a esquerda
+        marginTop: 10,
+
+    },
+
+    textTitle: {
+        fontWeight: 'bold',
+        fontSize: 30,
+        marginBottom: 10
     },
 
     input: {
@@ -88,29 +91,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#DDD',
         borderRadius: 4,
-        marginBottom: 10,
+        marginTop: 20,
         paddingHorizontal: 15,
     },
 
-    create: {
+    button: {
         height: 46,
         alignSelf: 'stretch',
-        backgroundColor: '#00CD66',
-        borderRadius: 4,
         marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
-    cancel: {
-        height: 46,
-        alignSelf: 'stretch',
-        backgroundColor: '#CD3333',
-        borderRadius: 4,
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     buttonText: {
         color: '#FFF',
         fontWeight: 'bold',

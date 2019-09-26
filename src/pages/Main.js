@@ -1,23 +1,62 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, SafeAreaView, View} from 'react-native';
+import React, { useState, useEffect,Component } from 'react';
+import {Container, Header, Content, List, ListItem, Text, Button, Left, Right, Icon, Fab} from 'native-base';
+import {StyleSheet} from 'react-native';
+import api from '../services/api';
 
 export default function Main({navigation}) {
+    const id = navigation.getParam('user');
+    const [activities, setActivities] = useState([]);
 
+    console.log(id);
+    useEffect(() => {
+        async function loadActivities() {
+            const response = await api.get('/activities/', {
+                headers: {
+                    activity: id,
+                }
+            });
+
+            setActivities(response.data);
+        }
+
+         loadActivities();
+    }, [id]);
+    
     async function handleActivity() {
         navigation.navigate('RegisterActivity');
 
     }
-    return(
-        <SafeAreaView>
-            <View style={styles.container}>
-                <Text style={styles.email}>Atividades: </Text>
 
-                <TouchableOpacity onPress={handleActivity} style={styles.button}>
-                    <Text>Cadastrar Atividade</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
-    )
+    return (
+            <Container>
+                <Header />
+                <Content>
+                    {activities.map(activity => (
+                    <List>
+                        <ListItem selected>
+                            <Left>
+                                <Text>{activity.title}</Text>
+                            </Left>
+                            <Right>
+                                <Button transparent>
+                                <Icon name="arrow-forward" />
+                                </Button>
+                            </Right>
+                        </ListItem>
+                    </List>
+                        ))}
+                </Content>
+                <Fab
+                    direction="up"
+                    containerStyle={{ }}
+                    style={{ backgroundColor: '#5067FF' }}
+                    position="bottomRight"
+                    onPress={handleActivity}>
+                    <Icon name="add" />
+                </Fab>
+            </Container>
+
+        );
 }
 
 const styles = StyleSheet.create({
@@ -29,9 +68,13 @@ const styles = StyleSheet.create({
     },
 
     text: {
+        fontWeight: 'bold'
+    },
+
+    textTitle: {
         fontWeight: 'bold',
-        // color: '#000',
-        fontSize: 30
+        fontSize: 30,
+        marginBottom: 30
     },
 
     input: {
@@ -48,8 +91,6 @@ const styles = StyleSheet.create({
     button: {
         height: 46,
         alignSelf: 'stretch',
-        backgroundColor: '#228B22',
-        borderRadius: 4,
         marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',

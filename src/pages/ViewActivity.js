@@ -3,18 +3,21 @@ import { KeyboardAvoidingView, Platform,StyleSheet, TextInput, TouchableOpacity 
 import { Button, Text } from 'native-base';
 import api from '../services/api';
 
-export default function RegisterUser ({navigation}) {
-    const [name, setName] = useState();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+export default function ViewActivity ({navigation}) {
+    const [title, setTitle] = useState();
+    const [description, setDescription] = useState();
+    const [status, setStatus] = useState();
+
+    useEffect(() => {
+        async function loadActivity() {
+            const response = await api.get(`/activities/${match.params.id}`);
+            setTitle(response.data.title);
+            setDescription(response.data.description);
+            setStatus(response.data.status);
+        }
 
     async function handleCancel() {
-        navigation.navigate('Login');
-    }
-
-    async function handleCreate() {
-        const response = await api.post('/users/', {name, email, password});
-        navigation.navigate('Login');
+        navigation.navigate('Main');
     }
 
     return (
@@ -23,37 +26,37 @@ export default function RegisterUser ({navigation}) {
             enabled={Platform.OS === 'ios' }
             style={styles.container}>
 
-            <Text style={styles.textTitle}>Novo Usuario</Text>
+            <Text style={styles.textTitle}>Nova Atividade</Text>
 
-            <Text style={styles.text}>Nome:</Text>
+            <Text style={styles.text}>Titulo: {title}</Text>
             <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
-                placeholder="Informe o nome do Usuario"
+                placeholder="Informe o Titulo da Atividade"
                 placeholderTextColor="#999"
-                value={name}
-                onChangeText={setName}
+                value={title}
+                onChangeText={setTitle}
                 style={styles.input}/>
-            <Text style={styles.text}>Email:</Text>
+            <Text style={styles.text}>Descrição:</Text>
             <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
-                placeholder="Informe um email valido"
+                placeholder="Informe a Descrição da Atividade"
                 placeholderTextColor="#999"
-                value={email}
-                onChangeText={setEmail}
+                value={description}
+                onChangeText={setDescription}
                 style={styles.input}/>
-            <Text style={styles.text}>Senha:</Text>
+            <Text style={styles.text}>Status:</Text>
             <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
-                placeholder="Informe uma senha"
+                placeholder="Selecione o status da atividade"
                 placeholderTextColor="#999"
-                value={password}
-                onChangeText={setPassword}
+                value={status}
+                onChangeText={setStatus}
                 style={styles.input}/>
 
-            <Button rounded success  onPress={handleCreate} style={styles.button}>
+            <Button rounded success onPress={handleCreate} style={styles.button}>
                 <Text>Criar</Text>
             </Button>
             <Button rounded danger onPress={handleCancel} style={styles.button}>
@@ -73,13 +76,15 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: 10,
+
     },
 
     textTitle: {
         fontWeight: 'bold',
         fontSize: 30,
-        marginBottom: 30
+        marginBottom: 10
     },
 
     input: {
