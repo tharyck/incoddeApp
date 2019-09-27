@@ -35,7 +35,8 @@ export default function Main({navigation}) {
             <Container>
                 <Header />
                 <Content>
-                    {activities.map(activity => (
+                    {activities.length == 0 ? <Text style={styles.empty}> Você não Possui Atividades</Text> :
+                        (activities.map(activity => (
                     <List>
                         <ListItem selected>
                             <Left>
@@ -48,7 +49,7 @@ export default function Main({navigation}) {
                             </Right>
                         </ListItem>
                     </List>
-                        ))}
+                        )))}
                 </Content>
                 <Fab
                     direction="up"
@@ -73,6 +74,12 @@ const styles = StyleSheet.create({
 
     text: {
         fontWeight: 'bold'
+    },
+
+    empty: {
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        alignItems: 'center'
     },
 
     textTitle: {
