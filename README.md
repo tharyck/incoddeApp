@@ -11,7 +11,7 @@ Para executar siga os seguintes passos:
 
 1 - Baixe e extraia o arquivo no diretorio de sua preferencia.
 2 - No terminal, acesse a pasta e execute:
-  2.1 - para ios: react-native run-ios --simulator="iPhone 8" **PREFENRENCIALMENTE**
+  2.1 - para ios: react-native run-ios --simulator="iPhone 8" **PREFERENCIALMENTE**
   2.1 - para android: react-native run-android -> devido ao curto tempo, o app pode conter alguns ajustes a serem feitos
   
   
