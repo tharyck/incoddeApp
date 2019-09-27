@@ -1,19 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { KeyboardAvoidingView, Platform,StyleSheet, TextInput} from 'react-native';
-import { Button, Text, Form, Icon, Container, Header, Content, Picker} from 'native-base';
+import { Button, Text, Form, Icon, Container, Picker, Item} from 'native-base';
 import api from '../services/api';
 
 export default function RegisterActivity ({navigation}) {
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
     const [status, setStatus] = useState('pendente');
+    const user = navigation.getParam('user');
 
     async function handleCancel() {
         navigation.navigate('Main');
     }
 
     async function handleCreate() {
-        const response = await api.post('/activities/', {title, description, status});
+        await api.post('/activities/', {title, description, status});
         navigation.navigate('Main');
     }
 
@@ -22,12 +23,14 @@ export default function RegisterActivity ({navigation}) {
     }
 
     return (
+        <Container>
         <KeyboardAvoidingView
             behavior="padding"
             enabled={Platform.OS === 'ios' }
             style={styles.container}>
 
             <Text style={styles.textTitle}>Nova Atividade</Text>
+
             <Text style={styles.text}>Titulo:</Text>
             <TextInput
                 autoCapitalize="none"
@@ -48,26 +51,31 @@ export default function RegisterActivity ({navigation}) {
                 style={styles.input}/>
             <Text style={styles.text}>Status:</Text>
             <Form>
-                <Picker
-                    note
-                    mode="dropdown"
-                    style={{ width: 120 }}
-                    selectedValue={status}
-                    onValueChange={onValueChange.bind(this)}
-                >
+                <Item picker>
+                    <Picker
+                        mode="dropdown"
+                        iosIcon={<Icon name="arrow-down" />}
+                        style={{ width: undefined }}
+                        placeholder="Selecione o Status"
+                        placeholderStyle={{ color: "#bfc6ea" }}
+                        placeholderIconColor="#007aff"
+                        selectedValue={status}
+                        onValueChange={onValueChange.bind(this)}
+                    >
                     <Picker.Item label="Pendente" value="pendente" />
                     <Picker.Item label="Fazendo" value="fazendo" />
-                    <Picker.Item label="Concluido" value="concluido" />
+                    <Picker.Item label="Concluida" value="concluida" />
                 </Picker>
+                </Item>
             </Form>
-
+        </KeyboardAvoidingView>
             <Button rounded success onPress={handleCreate} style={styles.button}>
                 <Text>Criar</Text>
             </Button>
             <Button rounded danger onPress={handleCancel} style={styles.button}>
                 <Text>Cancelar</Text>
             </Button>
-        </KeyboardAvoidingView>
+        </Container>
     );
 }
 
@@ -106,8 +114,10 @@ const styles = StyleSheet.create({
         height: 46,
         alignSelf: 'stretch',
         marginTop: 10,
+        marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
+
     },
 
     buttonText: {

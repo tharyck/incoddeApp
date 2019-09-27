@@ -1,13 +1,13 @@
-import React, { useState, useEffect,Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Container, Header, Content, List, ListItem, Text, Button, Left, Right, Icon, Fab} from 'native-base';
 import {StyleSheet} from 'react-native';
 import api from '../services/api';
 
 export default function Main({navigation}) {
     const id = navigation.getParam('user');
+    // const id = user._id;
     const [activities, setActivities] = useState([]);
 
-    console.log(id);
     useEffect(() => {
         async function loadActivities() {
             const response = await api.get('/activities/', {
@@ -27,6 +27,10 @@ export default function Main({navigation}) {
 
     }
 
+    async function viewActivity(activity) {
+        navigation.navigate('ViewActivity', { activity });
+    }
+
     return (
             <Container>
                 <Header />
@@ -38,8 +42,8 @@ export default function Main({navigation}) {
                                 <Text>{activity.title}</Text>
                             </Left>
                             <Right>
-                                <Button transparent>
-                                <Icon name="arrow-forward" />
+                                <Button transparent onPress={() => viewActivity(activity)}>
+                                <Icon name="arrow-forward"/>
                                 </Button>
                             </Right>
                         </ListItem>
